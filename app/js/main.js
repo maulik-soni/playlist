@@ -1,4 +1,1 @@
-var myApp = angular.module('PlaylistApp',
-  [
-    'ngRoute'
-  ]);
+var app = angular.module('App',[/*'ui.bootstrap'*/]);

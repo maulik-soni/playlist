@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/addtrack','PlayListController@addtrack');
+Route::get('/gettracklist','PlayListController@gettracklist');

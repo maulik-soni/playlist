@@ -1,20 +1,164 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Playlist</title>
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <meta charset="utf-8">
-  <base href="http://127.0.0.1/playlist/app/">
-  <link rel="stylesheet" href="vendor/bootstrap3.3.6/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/style.css" />
-  <script type="text/javascript" src="vendor/jq/jquery1.12.0.js"></script>
-  <script type="text/javascript" src="vendor/bootstrap3.3.6/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="vendor/angular/angular.min.js"></script>
-  <script type="text/javascript" src="vendor/angular-route/angular-route.js"></script>  
+	<title>Playlist</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<meta charset="utf-8">
+	<base href="http://127.0.0.1/playlist/app/">
+	<link rel="stylesheet" href="vendor/bootstrap3.3.6/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script type="text/javascript" src="vendor/jq/jquery1.12.0.js"></script>
+	<script type="text/javascript" src="vendor/bootstrap3.3.6/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="vendor/angular/angular.min.js"></script>
+<!-- 	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+ -->	<script type="text/javascript" src="js/main.js"></script> 
+	<script type="text/javascript" src="js/controller/playlistcontroller.js"></script>   
+<script type="text/javascript" src="js/directives/rating.js"></script>
 </head>
 
-<body ng-app="PlaylistApp">
-  <div ui-view></div>
-  <script type="text/javascript" src="js/main.js"></script>
-  <script type="text/javascript" src="js/controller/playlistcontroller.js"></script>  
+<body ng-app="App">
+  	<div ng-controller = "playlistcontroller">
+	  	<div class="container" ng-init="init()">
+	  	  	<div class="content">
+	  	  		<div class="hidden-lg nav-bar">
+			      <div id="responsive-nav" class="nav-title"><i class="glyphicon glyphicon-th-list"></i> List of Steps</div>
+			      <div id="responsive-tab">
+			        <ul class="responsive-tabs">
+			          <li><a data-toggle="tab" ng-click="customtabs('track')">Play List</a></li>
+			          <li><a data-toggle="tab" ng-click="customtabs('genere')">Genere</a></li>
+			        </ul>
+			      </div>
+			    </div>
+
+			    <div class="vissible-lg hidden-sm hidden-md hidden-xs ">
+			      <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+			        <li class="active"><a data-toggle="tab" ng-click="customtabs('track')">Play List</a></li>
+			        <li><a data-toggle="tab" ng-click="customtabs('genere')">Genere</a></li>
+			      </ul>
+			    </div>
+
+			    <div class="tab-content" id="my-tab-content">
+			  		<div class="tracktab col-sm-12" ng-show="activetab == 'track'">
+			  			<div class="form-group">  							
+  							<input type="text" class="form-control" placeholder="Search your favourite Tracks" ng-model="searchText">
+						</div>	
+				  		<div id = "trackcontainer" class="stylish-panel">
+				          <!-- <div class="col-xs-12" ng-repeat="track in tracklist.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter:searchText" style="margin-bottom: 15px" data-toggle="modal" data-target="#editsong" ng-click="edittrack(track)"> -->
+				          <div class="col-xs-12" ng-repeat="track in tracklist | filter:searchText" style="margin-bottom: 15px" data-toggle="modal" data-target="#editsong" ng-click="edittrack(track)">
+				            <div class="col-xs-12 hidden-xs">
+				              <img ng-src="http://127.0.0.1/playlist/app/images/music.png" width="100px" alt="" class="img-circle img-thumbnail" style="float:left" />
+				              <div class="" style="display: inline-block; margin:25px 10px">
+				                <div class="" style="font-size:20px">{{track.songname}}</div>
+				                <div class="" style="font-size:12px">{{track.genere}}</div>
+				              </div>
+				              <div class="" style="float:right; margin-top:30px">	                
+			            			<div star-rating rating-value="track.rating" max="maxvalue"></div>            			
+				              </div>
+				            </div>
+				            <div class="col-xs-12 visible-xs text-center">
+				              <img ng-src="http://127.0.0.1/playlist/app/images/music.png" width="100px" alt="" class="img-circle img-thumbnail" />
+				              <div class="">
+				                <div class="" style="font-size:20px">{{track.songname}}</div>
+				                <div class="" style="font-size:12px">{{track.genere}}</div>
+				              </div>
+				              <div class="">
+				                <label>Ratings :</label>
+			            			<div star-rating rating-value="form.rating" max="maxvalue" ></div>
+				              	</div>
+				            </div>
+				          </div>
+				        </div>
+				           
+					    <div class="modal fade" id="addsong" role="dialog">
+					        <div class="modal-dialog">
+					          <div class="modal-content">
+					            <div class="modal-header">
+					              <button type="button" class="close" data-dismiss="modal">&times;</button>
+					              <h4 class="modal-title">Add Song in Play list</h4>
+					            </div>
+					            <div class="modal-body">
+					              <form class="form-group" name="addtrackform">               
+						                <label>Song Name : </label>
+						                <input class="form-control" id="appname" type="text" placeholder="Song Name" ng-model="form.songname" required="" />
+					                <br>
+						                <label>Select Your Genere:</label>
+										<select ng-model="form.genere" required="">
+					  						<option value=""> - Select - </option>
+									        <option ng-repeat="item in items" value="{{item}}">{{item}}</option>
+									    </select>
+								    <br>
+						                <label>Ratings :</label>
+					            			<div star-rating rating-value="form.rating" max="maxvalue"></div>
+					                <br>          			
+					              </form>
+					            </div>
+					            <div class="modal-footer">
+					              <button type="button" class="btn btn-success" data-dismiss="modal" ng-disabled="addtrackform.$invalid" ng-click="addsonginlist(form)">Add Song</button>
+					              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					            </div>
+					          </div>
+					        </div>
+				      	</div>
+
+				      	<div class="modal fade" id="editsong" role="dialog">
+					        <div class="modal-dialog">
+					          <div class="modal-content">
+					            <div class="modal-header">
+					              <button type="button" class="close" data-dismiss="modal">&times;</button>
+					              <h4 class="modal-title">Edit Song in Play list</h4>
+					            </div>
+					            <div class="modal-body">
+					              <form class="form-group" name="developerform">               
+						                <label>Song Name : </label>
+						                <input class="form-control" id="appname" type="text" placeholder="My Chat App" ng-model="edittrackdata.songname" required="" />
+					                <br>
+						                <label>Select Your Genere:</label>
+										<select ng-model="edittrackdata.genere" required="">
+					  						<option value=""> - Select - </option>
+									        <option ng-repeat="item in items" value="{{item}}">{{item}}</option>
+									    </select>
+								    <br>
+						                <label>Ratings :</label> {{edittrackdata.rating}}
+					            			<div star-rating rating-value="edittrackdata.rating" max="maxvalue"></div>
+					                <br>          			
+					              </form>
+					            </div>
+					            <div class="modal-footer">					            
+					              <button type="button" class="btn btn-success" data-dismiss="modal" ng-disabled="developerform.$invalid" ng-click="editsonginlist(edittrackdata)">Save</button>
+					              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					            </div>
+					          </div>
+					        </div>
+				      	</div>
+
+				        <div class="text-center">
+				        	<button type="button" name="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addsong" ng-click="addsong()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Song &nbsp;</button>		        	
+				        </div>
+
+				        <div class="text-center">
+				        	<!-- <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></pagination> -->
+				        </div>
+
+			  		</div>
+			  		<div class="generetab col-sm-12" ng-show="activetab == 'genere'">
+			  			genere			  		
+			  		</div>
+		  		</div>
+		  	</div>
+		</div>
+  	</div>
+
+<script>
+  jQuery(document).ready(function($) {
+    $('#responsive-tab > ul li').click(function() {
+      document.getElementById("responsive-nav").nextElementSibling.classList.toggle("show");
+    });
+
+    $("#responsive-nav").click(function() {
+      this.classList.toggle("active");
+      this.nextElementSibling.classList.toggle("show");
+    });
+  });
+</script>
 </body>
+
