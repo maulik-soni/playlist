@@ -12,18 +12,23 @@ class PlayListController extends Controller
 {
     public function addtrack(){
         $data = Request::all();
-        \DB::table('playlist_songs')->insert(['song_data' => json_encode($data)]);
+        print_r($data);
+        \DB::table('playlist_songs')->insert([
+            'song_name' => $data['songname'],
+            'song_genere' => $data['genere'],
+            'song_ratings' => $data['rating']
+        ]);
     }
 
     public function gettracklist(){
-        $data = \DB::table('playlist_songs')->select(['id','song_data'])->get();        
-        foreach ($data as $d ) {
-            $res[] = $d->song_data;            
-        }
-        foreach ($data as $i ) {
-            $res1[] = $i->id;            
-        } 
-        $res[] = $res1;
-        return $res;
+        $data = \DB::table('playlist_songs')->select(['id','song_name','song_genere','song_ratings'])->get();        
+        return $data;
+    }
+
+    public function addgenere(){
+        $data = Request::all();
+        \DB::table('playlist_genres')->insert([
+            'song_genres' => $data['generename']
+        ]);
     }
 }

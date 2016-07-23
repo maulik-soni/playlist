@@ -39,7 +39,7 @@
 
 			    <div class="tab-content" id="my-tab-content">
 			  		<div class="tracktab col-sm-12" ng-show="activetab == 'track'">
-			  			<div class="form-group">  							
+			  			<div class="form-group col-sm-12">  							
   							<input type="text" class="form-control" placeholder="Search your favourite Tracks" ng-model="searchText">
 						</div>	
 				  		<div id = "trackcontainer" class="stylish-panel">
@@ -84,7 +84,7 @@
 						                <label>Select Your Genere:</label>
 										<select ng-model="form.genere" required="">
 					  						<option value=""> - Select - </option>
-									        <option ng-repeat="item in items" value="{{item}}">{{item}}</option>
+									        <option ng-repeat="genere in generes" value="{{genere}}">{{genere}}</option>
 									    </select>
 								    <br>
 						                <label>Ratings :</label>
@@ -110,12 +110,12 @@
 					            <div class="modal-body">
 					              <form class="form-group" name="developerform">               
 						                <label>Song Name : </label>
-						                <input class="form-control" id="appname" type="text" placeholder="My Chat App" ng-model="edittrackdata.songname" required="" />
+						                <input class="form-control" id="appname" type="text" placeholder="Song Name" ng-model="edittrackdata.songname" required="" />
 					                <br>
 						                <label>Select Your Genere:</label>
 										<select ng-model="edittrackdata.genere" required="">
 					  						<option value=""> - Select - </option>
-									        <option ng-repeat="item in items" value="{{item}}">{{item}}</option>
+									        <option ng-repeat="genere in generes" value="{{genere}}">{{genere}}</option>
 									    </select>
 								    <br>
 						                <label>Ratings :</label> {{edittrackdata.rating}}
@@ -141,7 +141,33 @@
 
 			  		</div>
 			  		<div class="generetab col-sm-12" ng-show="activetab == 'genere'">
-			  			genere			  		
+			  			<div class="genere-content col-sm-12" ng-repeat="genere in generes | filter:searchText">			  			
+			  				<p>{{genere}}</p>
+			  			</div>
+			  			<div class="text-center">
+				        	<button type="button" name="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addgenere" ng-click=""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Genere &nbsp;</button>		        	
+				        </div>
+				        <div class="modal fade" id="addgenere" role="dialog">
+					        <div class="modal-dialog">
+					          <div class="modal-content">
+					            <div class="modal-header">
+					              <button type="button" class="close" data-dismiss="modal">&times;</button>
+					              <h4 class="modal-title">Add Genere</h4>
+					            </div>
+					            <div class="modal-body">
+					              <form class="form-group" name="developerform">               
+						                <label>Genere Name : </label>
+						                <input class="form-control" id="appname" type="text" placeholder="Genere Name" ng-model="generename" required="" />
+					              </form>
+					            </div>
+					            <div class="modal-footer">					            
+					              <button type="button" class="btn btn-success" data-dismiss="modal" ng-disabled="developerform.$invalid" ng-click="addgenere(generename)">Save</button>
+					              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					            </div>
+					          </div>
+					        </div>
+				      	</div>
+
 			  		</div>
 		  		</div>
 		  	</div>

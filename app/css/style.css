@@ -104,10 +104,23 @@ ul.rating {
   border-bottom: 1px solid #DDDDDD;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  padding-top: 15px;
+  padding: 15px 0px 15px 0px;
+  margin-bottom: 15px;
 }
 
 .stylish-panel>div>div:hover{
   background : rgba(0, 0, 0, 0.1);
   cursor: pointer;
+}
+
+.genere-content{
+	border: 1px solid #DDDDDD;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.genere-content > p{
+	text-transform: capitalize;
+    margin: 15px 0px;
+    line-height: 1;
 }
