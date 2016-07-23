@@ -17,5 +17,8 @@ Route::get('/', function () {
 
 Route::post('/addtrack','PlayListController@addtrack');
 Route::post('/addgenere','PlayListController@addgenere');
+Route::post('/editedtrack','PlayListController@editedtrack');
+Route::post('/delgenere','PlayListController@delgenere');
 
 Route::get('/gettracklist','PlayListController@gettracklist');
+Route::get('/getgeneres','PlayListController@getgeneres');

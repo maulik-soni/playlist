@@ -12,7 +12,6 @@ class PlayListController extends Controller
 {
     public function addtrack(){
         $data = Request::all();
-        print_r($data);
         \DB::table('playlist_songs')->insert([
             'song_name' => $data['songname'],
             'song_genere' => $data['genere'],
@@ -30,5 +29,24 @@ class PlayListController extends Controller
         \DB::table('playlist_genres')->insert([
             'song_genres' => $data['generename']
         ]);
+    }
+
+    public function getgeneres(){
+        $data = \DB::table('playlist_genres')->select(['id','song_genres'])->get();  
+        return $data;      
+    }
+
+    public function editedtrack(){
+        $data = Request::all();   
+        \DB::table('playlist_songs')->where("id",$data['songid'])->update([
+            'song_name' => $data['songname'],
+            'song_genere' => $data['genere'],
+            'song_ratings' => $data['rating']
+        ]);
+    }
+
+    public function delgenere(){
+        $data = Request::all(); 
+        DB::table('playlist_genres')->where('song_genres', '=', $data['generename'])->delete();
     }
 }

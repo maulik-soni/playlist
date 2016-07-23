@@ -115,12 +115,12 @@ ul.rating {
 
 .genere-content{
 	border: 1px solid #DDDDDD;
-    border-radius: 5px;
-    margin-bottom: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  padding: 10px;
 }
 
-.genere-content > p{
+.genere-content > span{
 	text-transform: capitalize;
-    margin: 15px 0px;
-    line-height: 1;
+  line-height: 1;
 }
