@@ -1,1 +1,126 @@
-<div ng-controller = "playlistcontroller"></div>
+<div class="tracktab col-sm-12">
+	<div class="form-group col-sm-12">  							
+		<input type="text" class="form-control" placeholder="Search your favourite Tracks" ng-model="searchText">
+</div>		
+	<div id = "trackcontainer" class="stylish-panel">
+  <div class="col-xs-12" ng-repeat="track in tracklist.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage)) | filter:searchText" style="margin-bottom: 15px" ng-click="edittrack(track)" ng-show = "tracklist.length > viewby && (searchText == undefined || searchText == '')">				          
+    <div class="col-xs-12 hidden-xs">
+      <img ng-src="http://127.0.0.1/playlist/app/images/music.png" width="100px" alt="" class="img-circle img-thumbnail" style="float:left" />
+      <div class="" style="display: inline-block; margin:25px 10px">
+        <div class="" style="font-size:20px">{{track.songname}}</div>
+        <div class="" style="font-size:12px">{{track.genere}}</div>
+      </div>
+      <div class="text-center" style="float:right; margin-top:13px">	                
+			<div star-rating rating-value="track.rating" max="maxvalue"></div>
+			<button type="button" class="btn btn-success" data-toggle="modal" data-target="#editsong" ng-click="edittrack(track);getgeneres()">Edit Song</button>          			
+      </div>
+    </div>
+    <div class="col-xs-12 visible-xs text-center">
+      <img ng-src="http://127.0.0.1/playlist/app/images/music.png" width="100px" alt="" class="img-circle img-thumbnail" />
+      <div class="">
+        <div class="" style="font-size:20px">{{track.songname}}</div>
+        <div class="" style="font-size:12px">{{track.genere}}</div>
+      </div>
+      <div class="text-center">
+        <label>Ratings :</label>
+			<div star-rating rating-value="form.rating" max="maxvalue" ></div>
+			<button type="button" class="btn btn-success" data-toggle="modal" data-target="#editsong" ng-click="edittrack(track);getgeneres()">Edit Song</button>
+      	</div>
+    </div>
+  </div>
+  <div class="col-xs-12" ng-repeat="track in tracklist | filter:searchText" style="margin-bottom: 15px" ng-hide = "tracklist.length > viewby && (searchText == undefined || searchText == '')">
+    <div class="col-xs-12 hidden-xs">
+      <img ng-src="http://127.0.0.1/playlist/app/images/music.png" width="100px" alt="" class="img-circle img-thumbnail" style="float:left" />
+      <div class="" style="display: inline-block; margin:25px 10px">
+        <div class="" style="font-size:20px">{{track.songname}}</div>
+        <div class="" style="font-size:12px">{{track.genere}}</div>
+      </div>
+      <div class="text-center" style="float:right; margin-top:13px">	                
+			<div star-rating rating-value="track.rating" max="maxvalue"></div>
+			<button type="button" class="btn btn-success" data-toggle="modal" data-target="#editsong" ng-click="edittrack(track);getgeneres()">Edit Song</button>          			
+      </div>
+    </div>
+    <div class="col-xs-12 visible-xs text-center">
+      <img ng-src="http://127.0.0.1/playlist/app/images/music.png" width="100px" alt="" class="img-circle img-thumbnail" />
+      <div class="">
+        <div class="" style="font-size:20px">{{track.songname}}</div>
+        <div class="" style="font-size:12px">{{track.genere}}</div>
+      </div>
+      <div class="text-center">
+        <label>Ratings :</label>
+			<div star-rating rating-value="form.rating" max="maxvalue" ></div>
+			<button type="button" class="btn btn-success" data-toggle="modal" data-target="#editsong" ng-click="edittrack(track);getgeneres()">Edit Song</button>
+      	</div>
+    </div>
+  </div>
+</div>
+   
+<div class="modal fade" id="addsong" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Song in Play list</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-group" name="addtrackform">               
+                <label>Song Name : </label>
+                <input class="form-control" id="appname" type="text" placeholder="Song Name" ng-model="form.songname" required="" />
+            <br>
+                <label>Select Your Genere:</label>
+				<select ng-model="form.genere" ng-options="item for item in generes" required="">
+						<option value=""> - Select - </option>
+			    </select>
+		    <br>
+                <label>Ratings :</label>
+        			<div star-rating rating-value="form.rating" max="maxvalue"></div>
+            <br>          			
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal" ng-disabled="addtrackform.$invalid" ng-click="addsonginlist(form)">Add Song</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+	</div>
+
+	<div class="modal fade" id="editsong" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Song in Play list</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-group" name="editsongform">               
+                <label>Song Name : </label>
+                <input class="form-control" id="appname" type="text" placeholder="Song Name" ng-model="edittrackdata.songname" required="" />
+            <br>
+                <label>Select Your Genere:</label>
+				<select ng-model="edittrackdata.genere" ng-options="item for item in generes" required="">
+						<option value=""> - Select - </option>
+			    </select>
+		    <br>
+                <label>Ratings :</label>
+        			<div star-rating rating-value="edittrackdata.rating" max="maxvalue"></div>
+            <br>          			
+          </form>
+        </div>
+        <div class="modal-footer">					            
+          <button type="button" class="btn btn-success" data-dismiss="modal" ng-disabled="editsongform.$invalid" ng-click="editsonginlist(edittrackdata)">Save</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+	</div>
+
+<div class="text-center">
+	<button type="button" name="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addsong" ng-click="getgeneres()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Song &nbsp;</button>		        	
+</div>
+
+<div class="text-center">
+	<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage" ng-show = "tracklist.length > viewby && (searchText == undefined || searchText == '')"></pagination>
+</div>
+
+</div>
