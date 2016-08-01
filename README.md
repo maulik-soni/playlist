@@ -1,5 +1,5 @@
 # PlayList - Assignment 
-=======================
+
 
 The Project aims the basic undersatanding of LARAVEL and ANGULAJS. To make the Responsive View of the web app Bootstrap and JQuery is used. Here the View of the web app is outside the Laravel in 'app' folder and 'api' contains only api call related Controllers and Models.
 
