@@ -14,39 +14,37 @@ class PlayListController extends Controller
 {
     public function addtrack(){
         $data = Request::all();
-        \App\Playlist_Songs::insert([
-            'song_name' => $data['songname'],
-            'song_genere' => $data['genere'],
-            'song_ratings' => $data['rating']
-        ]);
+        $song = new \App\Playlist_Songs;
+        $song->song_name = $data['songname'];
+        $song->song_genere = $data['genere'];
+        $song->song_ratings = $data['rating'];
+        $song->save();
     }
 
     public function gettracklist(){
-        $data = \App\Playlist_Songs::select(array('id','song_name','song_genere','song_ratings'))->get();        
+        $data = \App\Playlist_Songs::all();
         return $data;
     }
 
     public function addgenere(){
-        $data = Request::all();
-        \App\Playlist_Generes::insert([
-            'song_genres' => $data['generename']
-        ]);
+        $data = Request::all();        
+        $genere = new \App\Playlist_Generes;
+        $genere->song_genres = $data['generename'];
+        $genere->save();
     }
 
     public function getgeneres(){
-        // $data = \DB::table('playlist_genres')->select(['id','song_genres'])->get();  
-        $data = \App\Playlist_Generes::select(array('id','song_genres'))->get()->toJson();  
-
+        $data = \App\Playlist_Generes::all();  
         return $data;      
     }
 
     public function editedtrack(){
-        $data = Request::all();   
-        \App\Playlist_Songs::where("id",$data['songid'])->update([
-            'song_name' => $data['songname'],
-            'song_genere' => $data['genere'],
-            'song_ratings' => $data['rating']
-        ]);
+        $data = Request::all();
+        $editsong = \App\Playlist_Songs::find($data['songid']);
+        $editsong->song_name = $data['songname'];
+        $editsong->song_genere = $data['genere'];
+        $editsong->song_ratings = $data['rating'];
+        $editsong->save();
     }
 
     public function delgenere(){

@@ -1,6 +1,7 @@
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
   //
   // For any unmatched url, redirect to /state1
+  $locationProvider.html5Mode(true).hashPrefix("!");
   $urlRouterProvider.otherwise("/playlist");
  
   $stateProvider
